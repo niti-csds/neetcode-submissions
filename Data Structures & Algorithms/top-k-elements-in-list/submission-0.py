@@ -1,19 +1,21 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        # using bucket sort
-        hashMap = {} #num - count
-        freq = [[] for i in range(len(nums)+1)]
-
-        for num in nums:
-            hashMap[num] = 1+ hashMap.get(num,0)
-        
-        for num , count in hashMap.items():
-            freq[count].append(num)
-
+        arr_dict = defaultdict(int)
         res = []
-        for i in range(len(freq)-1,0,-1):
-            for num in freq[i]:
-                res.append(num)
+        for n in nums:
+            arr_dict[n] += 1
+        
+        while (k>0):
+            max_ = 0
+            for key, values in arr_dict.items():
+                if values >= max_:
+                    max_ = values
+                    k_ = key
+            
+            res.append(k_)
+            arr_dict.pop(k_)
+                    
 
-            if len(res)==k:
-                return res
+            k -= 1
+
+        return res
